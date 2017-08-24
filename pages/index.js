@@ -14,7 +14,7 @@ import Swipeable from 'react-swipeable'
 import anime from 'animejs'
 import { appConfig, scrollConfig, debounceTime, swipeConfig } from '../config'
 import { slidesCnt } from '../constants/slidesContent'
-import { detectWindowSize, setSectionIndex } from '../actions/section'
+import { setSectionIndex } from '../actions/section'
 import { initStore } from '../store'
 import { screen } from '../styles/utils'
 import styled from 'styled-components'
@@ -61,16 +61,12 @@ class Home extends React.Component {
     this._onSwipeBack = this._onSwipeBack.bind(this)
     this._getSwipeThreshold = this._getSwipeThreshold.bind(this)
     this._moveContentByY = this._moveContentByY.bind(this)
-    this._onWindowResize = this._onWindowResize.bind(this)
     this._onScroll = this._onScroll.bind(this)
-    this.debouncedBrowserResize = _.debounce(this._onWindowResize, debounceTime.window.threshold, { maxWait: debounceTime.window.maxWait })
     this.debouncedOnScroll = _.debounce(this._onScroll, debounceTime.scroll.threshold, { maxWait: debounceTime.scroll.maxWait })
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.debouncedBrowserResize)
     window.addEventListener('scroll', this.debouncedOnScroll)
-    this.props.detectWindowSize()
     this.setState({ isLoaded: true })
 
     // send GA Tracking
@@ -90,10 +86,6 @@ class Home extends React.Component {
 
   _getSwipeThreshold() {
     return swipeConfig.threshold * this.props.windowHeight
-  }
-
-  _onWindowResize() {
-    this.props.detectWindowSize()
   }
 
   // on swiping
@@ -212,7 +204,6 @@ class Home extends React.Component {
 
 Home.defaultProps = {
   isMobile: false,
-  detectWindowSize: null,
   setSectionIndex: null,
   windowHeight: 600,
   sectionIndex: 0,
@@ -220,7 +211,6 @@ Home.defaultProps = {
 
 Home.propTypes = {
   isMobile: PropTypes.bool,
-  detectWindowSize: PropTypes.func,
   setSectionIndex: PropTypes.func,
   windowHeight: PropTypes.number,
   sectionIndex: PropTypes.number,
@@ -235,4 +225,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default withRedux(initStore, mapStateToProps, { detectWindowSize, setSectionIndex })(Home)
+export default withRedux(initStore, mapStateToProps, { setSectionIndex })(Home)
