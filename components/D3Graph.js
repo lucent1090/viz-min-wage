@@ -50,10 +50,6 @@ class D3Graph extends React.Component {
       .append('g')
       .attr('id', 'graphGroup')
 
-    const size = this.getContainerSize(this.props.containerRef)
-    if (size.width !== undefined) {
-      this.setGraphSize(size.width, size.height)
-    }
     this.getChart()
   }
 

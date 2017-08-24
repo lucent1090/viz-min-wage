@@ -34,15 +34,13 @@ class Axis extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.chartKey !== nextProps.chartKey) {
-      d3.selectAll('#AxisX').remove()
-      d3.selectAll('#AxisY').remove()
-      d3.selectAll('#grid').remove()
-      this.setState({ line: undefined, xScale: undefined })
+    d3.selectAll('#AxisX').remove()
+    d3.selectAll('#AxisY').remove()
+    d3.selectAll('#grid').remove()
+    this.setState({ line: undefined, xScale: undefined })
 
-      if (nextProps.chartKey in chartsContent) {
-        this.drawAxis(nextProps.painting, nextProps.chartKey)
-      }
+    if (nextProps.chartKey in chartsContent) {
+      this.drawAxis(nextProps.painting, nextProps.chartKey)
     }
   }
 
